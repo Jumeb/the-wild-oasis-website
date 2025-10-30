@@ -2,6 +2,7 @@ import SelectCountry from "@/app/_components/SelectCountry";
 import UpdateProfileForm from "@/app/_components/UpdateProfileForm";
 import { auth } from "@/app/_lib/auth";
 import { getGuest } from "@/app/_lib/data-service";
+import { UserI } from "@/app/_lib/types";
 
 export const metadata = {
   title: "Update Profile",
@@ -9,7 +10,9 @@ export const metadata = {
 
 export default async function Page() {
   const session = await auth();
-  const guest = await getGuest(session?.user?.email);
+  const User = session?.user as unknown as UserI;
+
+  const guest = await getGuest(User?.email as string);
 
   return (
     <div>

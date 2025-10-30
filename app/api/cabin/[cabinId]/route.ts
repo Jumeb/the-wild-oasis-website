@@ -1,6 +1,6 @@
 import { getBookedDatesByCabinId, getCabin } from "@/app/_lib/data-service";
-
-export async function GET(req, { params }) {
+// @ts-expect-error akjsd
+export async function GET(_: unknown, { params }) {
     const { cabinId } = params;
     try {
         const [cabin, bookedDates] = await Promise.all([getCabin(cabinId), getBookedDatesByCabinId(cabinId)])

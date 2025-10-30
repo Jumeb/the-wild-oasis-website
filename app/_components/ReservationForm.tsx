@@ -4,18 +4,9 @@ import { differenceInDays } from "date-fns";
 import { useReservation } from "./ReservationContext";
 import { createBooking } from "../_lib/actions";
 import { SubmitButton } from "./SubmitButton";
+import { CabinI, UserI } from "../_lib/types";
 
-function ReservationForm({
-  cabin,
-  user,
-}: {
-  cabin: any;
-  user: {
-    id?: string | undefined;
-    name?: string | null | undefined;
-    image?: string;
-  };
-}) {
+function ReservationForm({ cabin, user }: { cabin: CabinI; user: UserI }) {
   const { maxCapacity, regularPrice, discount, id } = cabin;
   const { range, resetRange } = useReservation();
 
@@ -23,7 +14,8 @@ function ReservationForm({
   const endDate = range?.to;
 
   const numNights = differenceInDays(endDate as Date, startDate as Date);
-  const cabinPrice = numNights * (regularPrice - discount);
+  const cabinPrice =
+    numNights * ((regularPrice as number) - (discount as number));
 
   const bookingData = {
     startDate,
@@ -71,11 +63,13 @@ function ReservationForm({
             <option value="" key="">
               Select number of guests...
             </option>
-            {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((x) => (
-              <option value={x} key={x}>
-                {x} {x === 1 ? "guest" : "guests"}
-              </option>
-            ))}
+            {Array.from({ length: maxCapacity as number }, (_, i) => i + 1).map(
+              (x) => (
+                <option value={x} key={x}>
+                  {x} {x === 1 ? "guest" : "guests"}
+                </option>
+              )
+            )}
           </select>
         </div>
 

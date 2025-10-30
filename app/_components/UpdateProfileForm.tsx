@@ -1,15 +1,15 @@
 "use client";
 import React, { ReactNode, useState } from "react";
 import { updateGuest } from "../_lib/actions";
-import { useFormStatus } from "react-dom";
 import { SubmitButton } from "./SubmitButton";
+import { GuestI } from "../_lib/types";
 
 export default function UpdateProfileForm({
   children,
   guest,
 }: {
   children: ReactNode;
-  guest: any;
+  guest: GuestI;
 }) {
   const [count, setCount] = useState();
 

@@ -1,6 +1,7 @@
 import { eachDayOfInterval } from 'date-fns';
 import supabase from './supabase';
 import { notFound } from 'next/navigation';
+import { GuestI } from './types';
 
 /////////////
 // GET
@@ -105,8 +106,8 @@ export async function getBookings(guestId: string) {
   return data;
 }
 
-export async function getBookedDatesByCabinId(cabinId) {
-  let today = new Date();
+export async function getBookedDatesByCabinId(cabinId: string) {
+  let today: Date | string = new Date();
   today.setUTCHours(0, 0, 0, 0);
   today = today.toISOString();
 
@@ -161,7 +162,7 @@ export async function getCountries() {
 /////////////
 // CREATE
 
-export async function createGuest(newGuest) {
+export async function createGuest(newGuest: GuestI) {
   const { data, error } = await supabase.from('guests').insert([newGuest]);
 
   if (error) {
@@ -192,7 +193,8 @@ export async function createGuest(newGuest) {
 // UPDATE
 
 // The updatedFields is an object which should ONLY contain the updated data
-export async function updateGuest(id, updatedFields) {
+// @ts-expect-error any
+export async function updateGuest(id: string, updatedFields) {
   const { data, error } = await supabase
     .from('guests')
     .update(updatedFields)
@@ -207,7 +209,8 @@ export async function updateGuest(id, updatedFields) {
   return data;
 }
 
-export async function updateBooking(id, updatedFields) {
+// @ts-expect-error any
+export async function updateBooking(id: string, updatedFields) {
   const { data, error } = await supabase
     .from('bookings')
     .update(updatedFields)
@@ -225,7 +228,7 @@ export async function updateBooking(id, updatedFields) {
 /////////////
 // DELETE
 
-export async function deleteBooking(id) {
+export async function deleteBooking(id: string) {
   const { data, error } = await supabase.from('bookings').delete().eq('id', id);
 
   if (error) {

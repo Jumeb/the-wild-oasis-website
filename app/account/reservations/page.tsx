@@ -1,6 +1,8 @@
 import { getBookings } from "@/app/_lib/data-service";
 import { auth } from "@/app/_lib/auth";
 import ReservationList from "@/app/_components/ReservationList";
+import Link from "next/link";
+import { UserI } from "@/app/_lib/types";
 
 export const metadata = {
   title: "Reservations",
@@ -8,7 +10,11 @@ export const metadata = {
 
 export default async function Page() {
   const session = await auth();
-  const bookings = await getBookings(session?.user?.guestId);
+  const User = session?.user as unknown as UserI;
+
+  const bookings = await getBookings(User.guestId as string);
+
+  console.log(bookings);
 
   return (
     <div>
@@ -19,11 +25,12 @@ export default async function Page() {
       {bookings.length === 0 ? (
         <p className="text-lg">
           You have no reservations yet. Check out our{" "}
-          <a className="underline text-accent-500" href="/cabins">
+          <Link className="underline text-accent-500" href="/cabins">
             luxury cabins &rarr;
-          </a>
+          </Link>
         </p>
       ) : (
+        // @ts-expect-error any
         <ReservationList bookings={bookings} />
       )}
     </div>

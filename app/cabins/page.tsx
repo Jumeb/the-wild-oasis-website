@@ -7,8 +7,8 @@ import ReservationReminder from "../_components/ReservationReminder";
 export const metadata = {
   title: "Cabins",
 };
-
-export default function Page({ searchParams }: { searchParams: unknown }) {
+// @ts-expect-error sfsdf
+export default function Page({ searchParams }) {
   console.log(searchParams);
   const filter = searchParams?.capacity ?? "all";
   return (
